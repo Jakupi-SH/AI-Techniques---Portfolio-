@@ -19,8 +19,9 @@ public class BFS_Maze {
     public static void main(String[] args) {
 
         runTest(100, 0.0);
+        runTest(100, 0.2);
         runTest(1000, 0.3);
-        runTest(5000, 0.2);
+        //runTest(5000, 0.2);
     }
 
     static void runTest(int size, double obstacleChance) {
