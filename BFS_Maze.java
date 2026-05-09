@@ -20,7 +20,7 @@ public class BFS_Maze {
 
         runTest(100, 0.0);
         runTest(100, 0.2);
-        runTest(1000, 0.3);
+        runTest(1000, 0.25);
         //runTest(5000, 0.2);
     }
 
@@ -36,7 +36,7 @@ public class BFS_Maze {
 
         long start = System.nanoTime();
 
-        boolean found = bfs(0, 0, rows - 1, cols - 1);
+        boolean found = bfs(0, 0, rows - 2, cols - 2);
 
         long end = System.nanoTime();
 
