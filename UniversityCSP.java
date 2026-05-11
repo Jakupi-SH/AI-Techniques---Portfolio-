@@ -2,171 +2,175 @@ import java.util.*;
 
 public class UniversityCSP {
 
-    static final int N = 5;
-
-    // -------------------------------------------------
-    // VARIABLES
-    // Each variable stores an office position (1..5)
-    // -------------------------------------------------
-
-    static int CS, History, Mathematics, Philosophy, Physics;
-
-    static int Tesla, BMW, Mercedes, Volvo, Audi;
-
-    static int AI, ClimateChange, QuantumPhysics, Neuroscience, MedievalLiterature;
-
-    static int Cambridge, Oxford, Harvard, MIT, Stanford;
-
-    static int Blue, Red, White, Green, Yellow;
-
-    static int Espresso, HerbalTea, GreenTea, BlackCoffee, Tea;
+    static List<int[]> perms = new ArrayList<>();
 
     static boolean solved = false;
 
     public static void main(String[] args) {
 
-        List<int[]> perms = permutations();
+        generatePermutations(new int[]{1,2,3,4,5}, 0);
 
-        // -------------------------------------------------
-        // UNIVERSITY ASSIGNMENTS
-        // -------------------------------------------------
+        for (int[] dep : perms) {
 
-        for (int[] uni : perms) {
+            int CS = dep[0];
+            int History = dep[1];
+            int Mathematics = dep[2];
+            int Philosophy = dep[3];
+            int Physics = dep[4];
 
-            Cambridge = uni[0];
-            Oxford = uni[1];
-            Harvard = uni[2];
-            MIT = uni[3];
-            Stanford = uni[4];
+            for (int[] car : perms) {
 
-            // Constraint:
-            // Cambridge = 1
-            if (Cambridge != 1)
-                continue;
+                int Tesla = car[0];
+                int BMW = car[1];
+                int Mercedes = car[2];
+                int Volvo = car[3];
+                int Audi = car[4];
 
-            // Constraint:
-            // Stanford > Harvard
-            if (!(Stanford > Harvard))
-                continue;
+                for (int[] res : perms) {
 
-            // -------------------------------------------------
-            // COLOR ASSIGNMENTS
-            // -------------------------------------------------
+                    int AI = res[0];
+                    int ClimateChange = res[1];
+                    int QuantumPhysics = res[2];
+                    int Neuroscience = res[3];
+                    int MedievalLiterature = res[4];
 
-            for (int[] col : perms) {
+                    for (int[] uni : perms) {
 
-                Blue = col[0];
-                Red = col[1];
-                White = col[2];
-                Green = col[3];
-                Yellow = col[4];
+                        int Cambridge = uni[0];
+                        int Oxford = uni[1];
+                        int Harvard = uni[2];
+                        int MIT = uni[3];
+                        int Stanford = uni[4];
 
-                // Constraint:
-                // White = MIT
-                if (White != MIT)
-                    continue;
+                        for (int[] col : perms) {
 
-                // Constraint:
-                // |Cambridge - Yellow| = 1
-                if (Math.abs(Cambridge - Yellow) != 1)
-                    continue;
+                            int Blue = col[0];
+                            int Red = col[1];
+                            int White = col[2];
+                            int Green = col[3];
+                            int Yellow = col[4];
 
-                // -------------------------------------------------
-                // CAR ASSIGNMENTS
-                // -------------------------------------------------
+                            for (int[] drink : perms) {
 
-                for (int[] car : perms) {
+                                int Espresso = drink[0];
+                                int HerbalTea = drink[1];
+                                int GreenTea = drink[2];
+                                int BlackCoffee = drink[3];
+                                int Tea = drink[4];
 
-                    Tesla = car[0];
-                    BMW = car[1];
-                    Mercedes = car[2];
-                    Volvo = car[3];
-                    Audi = car[4];
+                                // -------------------------------------------------
+                                // CONSTRAINTS
+                                // -------------------------------------------------
 
-                    // Constraint:
-                    // Oxford = Tesla
-                    if (Oxford != Tesla)
-                        continue;
+                                if (CS != Blue) continue;
 
-                    // Constraint:
-                    // |BMW - Green| = 1
-                    if (Math.abs(BMW - Green) != 1)
-                        continue;
+                                if (Oxford != Tesla) continue;
 
-                    // -------------------------------------------------
-                    // DRINK ASSIGNMENTS
-                    // -------------------------------------------------
+                                if (AI != Espresso) continue;
 
-                    for (int[] drink : perms) {
+                                if (Cambridge != 1) continue;
 
-                        Espresso = drink[0];
-                        HerbalTea = drink[1];
-                        GreenTea = drink[2];
-                        BlackCoffee = drink[3];
-                        Tea = drink[4];
+                                if (Math.abs(BMW - Green) != 1) continue;
 
-                        // Constraint:
-                        // GreenTea = 3
-                        if (GreenTea != 3)
-                            continue;
+                                if (ClimateChange != HerbalTea) continue;
 
-                        // -------------------------------------------------
-                        // RESEARCH ASSIGNMENTS
-                        // -------------------------------------------------
+                                if (Mathematics != Red) continue;
 
-                        for (int[] res : perms) {
+                                if (Mercedes != QuantumPhysics) continue;
 
-                            AI = res[0];
-                            ClimateChange = res[1];
-                            QuantumPhysics = res[2];
-                            Neuroscience = res[3];
-                            MedievalLiterature = res[4];
+                                if (GreenTea != 3) continue;
 
-                            // AI = Espresso
-                            if (AI != Espresso)
-                                continue;
+                                if (Math.abs(Cambridge - Yellow) != 1) continue;
 
-                            // ClimateChange = HerbalTea
-                            if (ClimateChange != HerbalTea)
-                                continue;
+                                if (Volvo != Philosophy) continue;
 
-                            // Mercedes = QuantumPhysics
-                            if (Mercedes != QuantumPhysics)
-                                continue;
+                                if (Math.abs(Neuroscience - Audi) != 1) continue;
 
-                            // |Neuroscience - Audi| = 1
-                            if (Math.abs(Neuroscience - Audi) != 1)
-                                continue;
+                                if (History != BlackCoffee) continue;
 
-                            // -------------------------------------------------
-                            // DEPARTMENT ASSIGNMENTS
-                            // -------------------------------------------------
+                                if (White != MIT) continue;
 
-                            for (int[] dep : perms) {
+                                if (!(Stanford > Harvard)) continue;
 
-                                CS = dep[0];
-                                History = dep[1];
-                                Mathematics = dep[2];
-                                Philosophy = dep[3];
-                                Physics = dep[4];
+                                // -------------------------------------------------
+                                // FIRST VALID SOLUTION FOUND
+                                // -------------------------------------------------
 
-                                // CS = Blue
-                                if (CS != Blue)
-                                    continue;
+                                System.out.println("VALID SOLUTION FOUND\n");
 
-                                // Mathematics = Red
-                                if (Mathematics != Red)
-                                    continue;
+                                for (int office = 1; office <= 5; office++) {
 
-                                // Volvo = Philosophy
-                                if (Volvo != Philosophy)
-                                    continue;
+                                    String dept = "";
+                                    String carName = "";
+                                    String research = "";
+                                    String university = "";
+                                    String color = "";
+                                    String drinkName = "";
 
-                                // History = BlackCoffee
-                                if (History != BlackCoffee)
-                                    continue;
+                                    if (CS == office) dept = "Computer Science";
+                                    if (History == office) dept = "History";
+                                    if (Mathematics == office) dept = "Mathematics";
+                                    if (Philosophy == office) dept = "Philosophy";
+                                    if (Physics == office) dept = "Physics";
 
-                                printSolution();
+                                    if (Tesla == office) carName = "Tesla";
+                                    if (BMW == office) carName = "BMW";
+                                    if (Mercedes == office) carName = "Mercedes";
+                                    if (Volvo == office) carName = "Volvo";
+                                    if (Audi == office) carName = "Audi";
+
+                                    if (AI == office) research = "Artificial Intelligence";
+                                    if (ClimateChange == office) research = "Climate Change";
+                                    if (QuantumPhysics == office) research = "Quantum Physics";
+                                    if (Neuroscience == office) research = "Neuroscience";
+                                    if (MedievalLiterature == office) research = "Medieval Literature";
+
+                                    if (Cambridge == office) university = "Cambridge";
+                                    if (Oxford == office) university = "Oxford";
+                                    if (Harvard == office) university = "Harvard";
+                                    if (MIT == office) university = "MIT";
+                                    if (Stanford == office) university = "Stanford";
+
+                                    if (Blue == office) color = "Blue";
+                                    if (Red == office) color = "Red";
+                                    if (White == office) color = "White";
+                                    if (Green == office) color = "Green";
+                                    if (Yellow == office) color = "Yellow";
+
+                                    if (Espresso == office) drinkName = "Espresso";
+                                    if (HerbalTea == office) drinkName = "Herbal Tea";
+                                    if (GreenTea == office) drinkName = "Green Tea";
+                                    if (BlackCoffee == office) drinkName = "Black Coffee";
+                                    if (Tea == office) drinkName = "Tea";
+
+                                    System.out.println(
+                                        "Office " + office + ": "
+                                        + dept + ", "
+                                        + carName + ", "
+                                        + research + ", "
+                                        + university + ", "
+                                        + color + ", "
+                                        + drinkName
+                                    );
+                                }
+
+                                System.out.println("\nQUESTION ANSWER:");
+
+                                if (CS == MedievalLiterature)
+                                    System.out.println("Computer professor Science researches Medieval Literature");
+
+                                if (History == MedievalLiterature)
+                                    System.out.println("History professor researches Medieval Literature");
+
+                                if (Mathematics == MedievalLiterature)
+                                    System.out.println("Mathematics professor researches Medieval Literature");
+
+                                if (Philosophy == MedievalLiterature)
+                                    System.out.println("Philosophy professor researches Medieval Literature");
+
+                                if (Physics == MedievalLiterature)
+                                    System.out.println("Physics professor researches Medieval Literature");
+
                                 solved = true;
                                 return;
                             }
@@ -181,25 +185,10 @@ public class UniversityCSP {
         }
     }
 
-    // -------------------------------------------------
-    // GENERATE ALL PERMUTATIONS OF [1,2,3,4,5]
-    // -------------------------------------------------
-
-    static List<int[]> permutations() {
-
-        List<int[]> result = new ArrayList<>();
-
-        int[] nums = {1,2,3,4,5};
-
-        permute(nums, 0, result);
-
-        return result;
-    }
-
-    static void permute(int[] arr, int idx, List<int[]> result) {
+    static void generatePermutations(int[] arr, int idx) {
 
         if (idx == arr.length) {
-            result.add(arr.clone());
+            perms.add(arr.clone());
             return;
         }
 
@@ -207,7 +196,7 @@ public class UniversityCSP {
 
             swap(arr, idx, i);
 
-            permute(arr, idx + 1, result);
+            generatePermutations(arr, idx + 1);
 
             swap(arr, idx, i);
         }
@@ -218,87 +207,5 @@ public class UniversityCSP {
         int temp = arr[a];
         arr[a] = arr[b];
         arr[b] = temp;
-    }
-
-    // -------------------------------------------------
-    // PRINT SOLUTION
-    // -------------------------------------------------
-
-    static void printSolution() {
-
-        System.out.println("SOLUTION:\n");
-
-        for (int office = 1; office <= 5; office++) {
-
-            String dept = "";
-            String car = "";
-            String research = "";
-            String uni = "";
-            String color = "";
-            String drink = "";
-
-            if (CS == office) dept = "Computer Science";
-            if (History == office) dept = "History";
-            if (Mathematics == office) dept = "Mathematics";
-            if (Philosophy == office) dept = "Philosophy";
-            if (Physics == office) dept = "Physics";
-
-            if (Tesla == office) car = "Tesla";
-            if (BMW == office) car = "BMW";
-            if (Mercedes == office) car = "Mercedes";
-            if (Volvo == office) car = "Volvo";
-            if (Audi == office) car = "Audi";
-
-            if (AI == office) research = "Artificial Intelligence";
-            if (ClimateChange == office) research = "Climate Change";
-            if (QuantumPhysics == office) research = "Quantum Physics";
-            if (Neuroscience == office) research = "Neuroscience";
-            if (MedievalLiterature == office) research = "Medieval Literature";
-
-            if (Cambridge == office) uni = "Cambridge";
-            if (Oxford == office) uni = "Oxford";
-            if (Harvard == office) uni = "Harvard";
-            if (MIT == office) uni = "MIT";
-            if (Stanford == office) uni = "Stanford";
-
-            if (Blue == office) color = "Blue";
-            if (Red == office) color = "Red";
-            if (White == office) color = "White";
-            if (Green == office) color = "Green";
-            if (Yellow == office) color = "Yellow";
-
-            if (Espresso == office) drink = "Espresso";
-            if (HerbalTea == office) drink = "Herbal Tea";
-            if (GreenTea == office) drink = "Green Tea";
-            if (BlackCoffee == office) drink = "Black Coffee";
-            if (Tea == office) drink = "Tea";
-
-            System.out.println(
-                "Office " + office + ": " +
-                dept + ", " +
-                car + ", " +
-                research + ", " +
-                uni + ", " +
-                color + ", " +
-                drink
-            );
-        }
-
-        System.out.println("\nQUESTION ANSWER:");
-
-        if (CS == MedievalLiterature)
-            System.out.println("Computer Science researches Medieval Literature");
-
-        if (History == MedievalLiterature)
-            System.out.println("History researches Medieval Literature");
-
-        if (Mathematics == MedievalLiterature)
-            System.out.println("Mathematics researches Medieval Literature");
-
-        if (Philosophy == MedievalLiterature)
-            System.out.println("Philosophy researches Medieval Literature");
-
-        if (Physics == MedievalLiterature)
-            System.out.println("Physics researches Medieval Literature");
     }
 }
